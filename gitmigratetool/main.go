@@ -12,10 +12,10 @@ import (
 
 func main() {
 	// GitLab API 地址
-	apiUrl := "http://10.45.211.104/api/v4/groups"
+	apiUrl := "http://pre-ip/api/v4/groups"
 
 	// 访问令牌
-	accessToken := "rPvGLxhK4zGn3obTQP5x"
+	accessToken := "your token"
 
 	// 创建 HTTP 请求
 	req, err := http.NewRequest("GET", apiUrl, nil)
@@ -73,7 +73,7 @@ func main() {
 		os.Chdir("./" + groupName)
 		for _, project := range projects {
 			projectName := fmt.Sprintf("%v", project["name"])
-			httpURL := strings.Replace(fmt.Sprintf("%v", project["http_url_to_repo"]), "gitlab.example.com", "root:meituan123@10.45.211.104", 1)
+			httpURL := strings.Replace(fmt.Sprintf("%v", project["http_url_to_repo"]), "gitlab.example.com", "user:password@pre-ip", 1)
 			if !dirExists("./" + projectName) {
 				exec.Command("git", "clone", httpURL).Run()
 			}
@@ -85,7 +85,7 @@ func main() {
 				exec.Command("git", "checkout", branch).Run()
 			}
 			//push到远程：
-			newHttpUrl := strings.Replace(fmt.Sprintf("%v", project["http_url_to_repo"]), "gitlab.example.com", "root:meituan123@10.73.255.73", 1)
+			newHttpUrl := strings.Replace(fmt.Sprintf("%v", project["http_url_to_repo"]), "gitlab.example.com", "user:password@target-ip", 1)
 			err := exec.Command("git", "remote", "set-url", "origin", "--push", newHttpUrl).Run()
 			fmt.Println(err)
 			err = exec.Command("git", "push", "--all", "origin").Run()
